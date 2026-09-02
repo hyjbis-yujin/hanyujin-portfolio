@@ -1,0 +1,357 @@
+@use '../abstracts/variables' as *;
+// Mixins imported via _shared.scss
+@use './shared' as *;
+
+$project-filter-bg: $btn-inactive;
+$project-filter-hover: #555555;
+$project-card-bg: #212121;
+$project-tag-bg: $gray-dark;
+$project-card-height: 230px;
+$project-arrow-top: 57px;
+
+#project {
+    background-color: $bg-color;
+}
+
+.project-container {
+    padding-right: 0;
+    max-width: 1400px;
+    width: 100%;
+    @include flex-center;
+    flex-direction: row;
+    gap: 1rem;
+
+    @include mq-desktop {
+        @include internal-scroll;
+    }
+
+    @include mq-tablet {
+        gap: 2rem;
+    }
+}
+
+.project-center-column {
+    @include flex-col;
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    gap: 4.5rem;
+    padding-bottom: 2rem;
+    
+    // Internal scroll only on non-touch (real desktop) - prevents scroll trap on iPad
+    @include mq-desktop {
+        html:not([data-touch]) & {
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    }
+}
+
+.project-carousel-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+
+    @include mq-tablet {
+        gap: 2rem;
+    }
+}
+
+.project-swiper-area {
+    width: 100%;
+    position: relative;
+    overflow: visible;
+    flex: 1; // Take up remaining space between arrows
+    min-width: 0; // Prevent flex blowout
+}
+
+.project-swiper {
+    flex: 1;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 30px;
+    min-width: 0;
+}
+
+.filter-btn {
+    min-width: 124px;
+    height: 50px;
+    @include flex-center;
+    padding: 0 1.5rem;
+    border-radius: $radius-full;
+    background-color: $project-filter-bg;
+    color: rgba($text-color, 0.7);
+    border: none;
+    font-size: $font-14;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all $transition-fast;
+    gap: 6px;
+
+    .count {
+        @include flex-center;
+        width: 27px;
+        height: 27px;
+        padding: 3px;
+        font-size: 12px;
+        background: rgba(0, 0, 0, 0.13);
+        border-radius: 100%;
+        margin-left: 4px;
+    }
+
+    &:hover {
+        background-color: $project-filter-hover;
+    }
+
+    &.active {
+        background-color: $primary-color;
+        color: $white-color;
+        font-weight: 600;
+
+        .count {
+            background: rgba(255, 255, 255, 0.2);
+            color: $white-color;
+        }
+    }
+}
+
+.slider-arrow {
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all $transition-normal;
+    z-index: 20;
+    display: block;
+    flex-shrink: 0;
+    outline: none;
+    width: 20px;
+    height: 46px;
+    background-image: url('/images/ui/procect-arrow.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    &:hover:not(.swiper-button-disabled) {
+        background-image: url('/images/ui/procect-arrow-hover.svg');
+    }
+
+    &.swiper-button-disabled {
+        opacity: 0.3;
+        cursor: default;
+        pointer-events: none;
+    }
+
+    &.arrow-next {
+        transform: rotate(180deg);
+    }
+}
+
+.project-header-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+    flex-wrap: wrap;
+    
+    // 카드 그리드 영역(Swiper Area)과 시작/끝 라인을 맞추기 위해 
+    // 좌우 화살표 넓이(20px)와 컨테이너 간격(gap)만큼 padding 부여
+    padding: 0 calc(20px + 1rem);
+
+    @include mq-tablet {
+        padding: 0 calc(20px + 2rem);
+    }
+
+    @media (max-width: 1220px) {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        // 1220px 이하에서 1열로 전환되거나 좁아질 때 중앙 정렬되므로 
+        // 기존 패딩을 유지해도 카드 영역과 기준선이 일치함
+    }
+
+    .header-left {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: baseline;
+        flex-wrap: wrap;
+
+        @media (max-width: 1220px) {
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title {
+            margin: 0;
+            white-space: nowrap;
+            text-align: left;
+            color: $text-color;
+            margin-bottom: 0.5rem;
+
+            @media (max-width: 1220px) {
+                text-align: center;
+                white-space: normal;
+                word-break: keep-all;
+            }
+        }
+
+        .section-desc {
+            font-size: $font-16;
+            color: $secondary-color;
+            font-weight: 400;
+            margin: 0;
+            text-align: left;
+            margin-left: 0;
+
+            @media (max-width: 1220px) {
+                text-align: center;
+            }
+        }
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: nowrap;
+
+        @media (max-width: 1220px) {
+            flex-wrap: wrap; // Wrap like skill section on mobile
+            justify-content: center;
+            width: 100%;
+            margin-top: 1rem;
+        }
+    }
+}
+
+.project-grid {
+    display: grid;
+    // Desktop & Tablet & Mobile (down to 500px): Always 2 columns to keep cards in one row
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem;
+    width: 100%;
+
+    @media (max-width: 800px) {
+        grid-template-columns: 1fr !important; // Switch to 1 column at 800px
+    }
+}
+
+.project-card {
+    background-color: $project-card-bg;
+    border-radius: 30px;
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    height: $project-card-height;
+    min-height: $project-card-height;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+
+    @media (max-width: 1220px) {
+        flex-direction: column;
+        height: auto;
+        min-height: auto;
+    }
+
+    .card-image-area {
+        width: 40%;
+        background-color: transparent;
+        flex-shrink: 0;
+        position: relative;
+        @include flex-center;
+
+        @media (max-width: 1220px) {
+            width: 100%;
+            height: clamp(120px, 20vh, 165px); 
+            padding: 3rem 0 0; 
+        }
+
+        .image-overlay-pill {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            z-index: 2;
+
+            .type-pill {
+                color: $white-color;
+                font-size: $font-13;
+                padding: 10px 16px;
+                border-radius: $radius-full;
+                font-weight: 500;
+                border: 1px solid #565656;
+            }
+        }
+
+        .project-logo {
+            object-fit: contain;
+            // Removed fixed width/height per user request
+            max-width: 100%; // Ensure it doesn't overflow container
+            max-height: 100%;
+        }
+    }
+
+    .card-content-area {
+        width: 60%;
+        padding: 45px 30px 30px 0;
+        @include flex-col;
+        justify-content: center;
+        gap: 1rem;
+        flex-grow: 1;
+
+        @media (max-width: 1220px) {
+            width: 100%;
+            padding: 1rem 1.5rem 2rem; // Reduced padding to save vertical space
+            align-items: center;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: $font-17;
+            font-weight: 500;
+            color: $text-color;
+        }
+
+        .card-desc {
+            font-size: $font-16;
+            color: $secondary-color;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.5rem;
+
+            @media (max-width: 1220px) {
+                justify-content: center;
+            }
+
+            .tag {
+                background-color: $project-tag-bg;
+                color: $text-color;
+                font-size: $font-14;
+                padding: 10px 16px;
+                border-radius: 11px;
+                white-space: nowrap;
+                font-weight: 400;
+            }
+        }
+    }
+}

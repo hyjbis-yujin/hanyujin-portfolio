@@ -1,0 +1,130 @@
+@use '../abstracts/variables' as *;
+// Mixins imported via _shared.scss
+@use './shared' as *;
+
+$career-card-bg: #212121;
+$career-inner-bg: #2f2f2f;
+$career-min-height: 322px;
+$career-border: #525252;
+
+#career {
+    .career-container {
+        max-width: 1000px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+}
+
+.text-center {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.career-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    @include mq-tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mq-desktop {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.info-card-container {
+    background-color: $career-card-bg;
+    border-radius: 20px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    @include mq-tablet {
+        border-radius: 27px 54px 27px 27px;
+    }
+
+    // Ensure the motion wrapper inside fills the container to prevent background peeking
+    > div {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.container-title {
+    // Fluid font size: Scales smoothly from 16px on mobile to 18px on desktop
+    font-size: $font-18;
+    font-weight: 700;
+    color: $text-color;
+    // Fluid padding: Horizontal spacing matches .info-items for visual alignment
+    padding: clamp(20px, 4vw, 28px) clamp(32px, 5vw, 40px);
+}
+
+.info-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: $career-inner-bg;
+    // Fluid padding: Scales smoothly from 32px on mobile to 40px on tablet/desktop
+    padding: clamp(32px, 5vw, 40px);
+    flex-grow: 1;
+    border-radius: 20px;
+
+    @include mq-tablet {
+        border-radius: 27px;
+    }
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: flex-start;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid $career-border;
+
+    &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+}
+
+.item-org {
+    // Fluid font size: Scales smoothly from 16px on mobile to 17px on desktop
+    font-size: clamp(16px, 2.5vw, 17px);
+    font-weight: 600;
+    color: $primary-color;
+}
+
+.item-desc {
+    // Fluid font size: Scales smoothly from 15px on mobile to 17px on desktop
+    font-size: $font-16;
+    color: $secondary-color;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+.item-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.badge-pill {
+    background-color: #3B3B3B;
+    color: $text-color;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 99px;
+}
+
+.item-date {
+    font-size: 13px;
+    color: #7A7A7A;
+}

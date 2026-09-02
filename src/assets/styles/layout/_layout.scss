@@ -1,0 +1,141 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.main-layout {
+    min-height: 100vh;
+    background-color: $bg-color;
+    color: $text-color;
+    position: relative;
+
+    &::selection {
+        background: $primary-color;
+        color: $bg-color;
+    }
+}
+
+.main-content {
+    width: 100%;
+    position: relative;
+}
+
+// Navigation (Quick Buttons)
+.left-quick-btn {
+    position: fixed;
+    z-index: $z-quick-menu;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    border: 1px solid $btn-inactive;
+    border-radius: 100px;
+    @include glass-blur;
+
+    // Mobile View: Bottom Center
+    left: 50%;
+    bottom: 2.5rem; // Simple reliable value - safe-area handled by padding on parent
+    top: auto;
+    transform: translateX(-50%);
+    flex-direction: row;
+    gap: 2.3rem;
+    padding: 1.3rem 1.9rem;
+
+    @media (min-width: 1580px) {
+        // Desktop View: Left Center
+        left: 3rem;
+        top: 50%;
+        bottom: auto;
+        transform: translateY(-50%);
+        flex-direction: column;
+        gap: 2.3rem;
+        padding: 1.9rem 1.5rem;
+        border: 1px solid $btn-inactive;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .quick-btn {
+        width: 21px;
+        height: 21px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        transition: transform $transition-fast;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &.btn-home {
+            background-image: url('/icons/default/home.svg');
+        }
+
+        &.btn-mail {
+            background-image: url('/icons/default/mail.svg');
+        }
+
+        &.btn-github {
+            background-image: url('/icons/default/github.svg');
+            width: 25px;
+            height: 23px;
+        }
+
+        .circle-icon {
+            width: 12px;
+            height: 12px;
+            background-color: $white-color;
+            border-radius: 50%;
+            transition: opacity $transition-fast;
+        }
+    }
+}
+
+// Section Nav (Right)
+.section-nav {
+    position: fixed;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: $z-nav;
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: right;
+    align-items: flex-end;
+
+    @media (min-width: 1580px) {
+        display: flex;
+    }
+
+    &.disabled-state {
+        pointer-events: none;
+
+        .nav-link {
+            color: $secondary-color !important;
+            opacity: 0.5;
+        }
+    }
+
+    .nav-link {
+        font-size: 18px;
+        font-weight: 500;
+        transition: color $transition-normal;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.25rem 0;
+
+        &.inactive {
+            color: #5c5c5c;
+        }
+
+        &.active,
+        &:hover {
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+    }
+}

@@ -1,0 +1,58 @@
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
+@use 'base/fonts';
+@use 'base/reset';
+@use 'layout/layout';
+@use 'components/cards';
+@use 'components/badges';
+@use 'components/icons';
+@use 'components/modal';
+
+@use 'sections/shared';
+@use 'sections/home';
+@use 'sections/home-tools';
+@use 'sections/home-about';
+@use 'sections/home-project';
+@use 'sections/about';
+@use 'sections/skill';
+@use 'sections/career';
+@use 'sections/project';
+@use 'sections/contact';
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  @include mq-tablet {
+      padding: 0 4rem;
+  }
+}
+
+.section-title {
+  font-family: $font-title;
+  font-size: $font-34; 
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.section-desc {
+  font-size: $font-16;
+  color: #868686;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  word-break: keep-all;
+  padding: 0 1rem;
+}
+
+.text-muted {
+  color: $secondary-color;
+}
+
+@media (pointer: fine) {
+  body {
+    cursor: url('/cursor.svg') 0 0, auto;
+  }
+}

@@ -1,0 +1,206 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+$skill-tab-bg: $btn-inactive;
+$skill-tab-hover: #555555;
+$skill-card-bg: #212121;
+$skill-card-hover: #2a2a2a;
+$skill-icon-bg: #393939;
+
+#skill {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include mq-desktop {
+        html:not([data-touch]) & {
+            height: 100vh;
+            overflow: hidden;
+        }
+    }
+}
+
+.skill-container {
+    width: 100%;
+    max-width: 1300px;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding-bottom: 0; // Removed bottom padding per user request
+
+    @include mq-desktop {
+        height: auto;
+        justify-content: center;
+        gap: 4rem;
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+}
+
+.skill-header {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    background-color: transparent;
+    z-index: 10;
+
+    @include mq-desktop {
+        gap: 2.5rem;
+    }
+}
+
+.skill-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+
+    @include mq-tablet {
+        gap: 0.8rem;
+    }
+}
+
+.tab-btn {
+    width: auto;
+    min-width: 80px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.2rem;
+    border-radius: $radius-full;
+    background-color: $skill-tab-bg;
+    color: rgba($text-color, 0.7);
+    border: none;
+    // Fluid font size: Reusing global scale
+    font-size: $font-14;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    @include mq-desktop {
+        width: 124px;
+        height: 50px;
+    }
+
+    @include hover-supported {
+        &:hover {
+            background-color: $skill-tab-hover;
+        }
+    }
+
+    &.active {
+        background-color: $primary-color;
+        color: $text-color;
+        font-weight: 600;
+    }
+}
+
+.skill-list-wrap {
+    flex: 1;
+    width: 100%;
+    overflow-y: visible;
+    padding: 0;
+}
+
+.skill-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+
+    @include mq-tablet {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+
+    @include mq-desktop {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+.skill-card {
+    background-color: $skill-card-bg;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid transparent;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-start;
+    text-align: left;
+    height: auto;
+    min-height: 100px;
+
+    @include mq-desktop {
+        padding: 30px;
+        gap: 20px;
+        height: 100%;
+    }
+
+    @include hover-supported {
+
+        &:hover,
+        &:focus-visible {
+            transform: translateY(-2px);
+            border-color: $border-color;
+            background-color: $skill-card-hover;
+            outline: none;
+        }
+    }
+}
+
+.skill-icon-box {
+    // Fluid box size: 48px to 56px
+    width: clamp(48px, 7vw, 50px);
+    height: clamp(48px, 7vw, 50px);
+    background-color: $skill-icon-bg;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $text-color;
+
+    // Fluid icon size inside the box: 24px to 28px, keeping the same padding ratio as before
+    .skill-icon-wrapper, svg {
+        width: clamp(24px, 4.5vw, 28px);
+        height: clamp(24px, 4.5vw, 28px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.skill-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-grow: 1;
+    padding-top: 2px;
+
+    .skill-name {
+        // Fluid font size: 14px to 16px
+        font-size: clamp(14px, 2.5vw, 16px);
+        font-weight: 700;
+        color: $text-color;
+        line-height: 1.3;
+    }
+
+    .skill-text {
+        font-size: $font-14;
+        color: $secondary-color;
+        line-height: 1.5;
+        margin: 0;
+        word-break: keep-all;
+    }
+}
