@@ -239,7 +239,7 @@ export const projects = [
       "/images/projects/portfolio2026/5.jpg",
       "/images/projects/portfolio2026/6.jpg"
     ],
-    links: { github: "https://github.com/hyjbis-yujin/portfolio-yujin", demo: "https://portfolio-yujin.vercel.app/" },
+    links: { github: "https://github.com/hyjbis-yujin/hanyujin-portfolio", demo: "https://portfolio-yujin.vercel.app/" },
     meta: {
       main: "포트폴리오",
       duration: "2026.02 - 진행 중",
