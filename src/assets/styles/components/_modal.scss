@@ -75,7 +75,7 @@
     gap: 1.5rem;
     border-right: 1px solid $border-color-subtle;
 
-    // AS-IS / TO-BE Toggle
+    // PROCESS / OUTPUT Toggle
     .modal-view-toggle {
         display: flex;
         align-self: flex-start;
@@ -90,6 +90,10 @@
 
         .view-toggle-btn {
             padding: 0.5rem 1.25rem;
+            // Equal width for both labels (PROCESS / OUTPUT differ in length) so the
+            // pill doesn't visibly resize when switching tabs.
+            min-width: 108px;
+            text-align: center;
             border-radius: $radius-full;
             background-color: transparent;
             color: rgba($text-color, 0.7);
@@ -115,7 +119,29 @@
     // Main Image Viewport
     .modal-main-image-wrapper {
         width: 100%;
-        flex: 1;
+        // flex: none (not flex: 1) so the box's height is driven by aspect-ratio
+        // below instead of stretching to fill the column — this is what stops it
+        // from growing with a tall PROCESS/OUTPUT text column. Left-section
+        // content stays centered via justify-content above, so any leftover
+        // height just becomes neutral section background.
+        flex: none;
+        // Match the box's own proportions to typical landscape project
+        // screenshots (~2:1) instead of a flat height. A flat max-height made
+        // the box shrink toward a near-square shape as the column narrows
+        // (right before the modal switches to a stacked mobile layout), which
+        // left very large gray letterbox bars above/below a landscape image.
+        // Scaling height from width keeps the letterbox small and consistent
+        // across desktop widths.
+        aspect-ratio: 3 / 2;
+        // Ceiling kept low enough that this box's own natural stack (toggle +
+        // gaps + this wrapper + thumbnails + section padding, ~243px of
+        // chrome) never exceeds .project-modal-content's min-height floor
+        // (max(60vh, 580px)). If it did, this column would become taller than
+        // the OUTPUT tab's own meta/highlights content on short-content
+        // projects, stretching the right column past its content and leaving
+        // a visible empty gap above the Demo/PDF button (which is pinned to
+        // the bottom via margin-top: auto on .modal-actions-group).
+        max-height: 330px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -301,7 +327,7 @@
     // Meta Grid Table (Refactored)
     .modal-meta-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); // 2 Columns
+        grid-template-columns: repeat(2, 1fr); // 2 Columns — unchanged at every width
         gap: 15px 30px;
         width: 100%;
         align-items: start; // Align items to start
@@ -310,6 +336,19 @@
             display: flex;
             align-items: flex-start;
             gap: 12px;
+
+            // In the side-by-side desktop layout, the right column keeps
+            // shrinking as the viewport narrows toward the modal's own
+            // row→column breakpoint (1024px). Right around there
+            // (1025–1199px) a half-width grid cell gets tight enough that
+            // BOTH "기여도" and "작업기간" wrap their value to 2 lines next
+            // to the label — stack label above value (row → column) just in
+            // that band so the value gets the cell's full width instead of
+            // width-minus-label. The grid itself stays 2 columns throughout.
+            @media (min-width: 1025px) and (max-width: 1199px) {
+                flex-direction: column;
+                gap: 4px;
+            }
         }
 
         .meta-label {
@@ -339,14 +378,14 @@
 
 
 
-    // AS-IS content wrapper (Meta Grid + Highlights)
-    .modal-asis-content {
+    // OUTPUT content wrapper (Meta Grid + Highlights)
+    .modal-output-content {
         display: flex;
         flex-direction: column;
         gap: 3rem; // Matches the modal-right-section child gap this replaces
     }
 
-    // TO-BE content: Problem definition > Solution design > Project result
+    // PROCESS content: Problem definition > Solution design > Project result
     .modal-case-study {
         display: flex;
         flex-direction: column;
@@ -383,28 +422,36 @@
             font-weight: 500;
             color: $text-color;
         }
+    }
 
-        .highlight-list {
+    // Checkmark list — shared by the OUTPUT tab's "작업 내용" (inside
+    // .modal-highlights) and the PROCESS tab's "솔루션 설계" (inside
+    // .case-study-block), via the HighlightList component. Kept as a
+    // standalone selector (not nested under either parent) so both reuse
+    // the exact same marker, color, size, indentation and spacing.
+    .highlight-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .highlight-item {
             display: flex;
-            flex-direction: column;
+            align-items: flex-start;
             gap: 0.8rem;
+            font-size: 15px;
+            color: #9C9C9C;
+            font-weight: 400;
+            line-height: 1.5;
 
-            .highlight-item {
-                display: flex;
-                align-items: flex-start;
-                gap: 0.8rem;
-                font-size: 15px;
-                color: #9C9C9C;
-                font-weight: 400;
-                line-height: 1.5;
-
-                svg {
-                    color: $primary-color; // Check color
-                    width: 18px;
-                    height: 18px;
-                    flex-shrink: 0;
-                    margin-top: 2px;
-                }
+            svg {
+                color: $primary-color; // Check color
+                width: 18px;
+                height: 18px;
+                flex-shrink: 0;
+                margin-top: 2px;
             }
         }
     }
@@ -472,13 +519,18 @@
         border-bottom: 1px solid $border-color-subtle;
 
         .modal-main-image-wrapper {
+            // flex: none overrides the base rule's flex: 1 (flex-basis: 0%), which
+            // otherwise fights the explicit height below and collapses this to ~0
+            // once .modal-left-section stops stretching (flex: none, above).
+            flex: none;
             height: 280px; // Solid defined height on mobile to prevent collapse
+            max-height: none;
             border-radius: $radius-xl;
         }
 
         @media (max-width: 768px) {
             padding: 2.5rem 2rem 2rem; // User requested ~2rem top padding to clear the close button
-            
+
             .modal-main-image-wrapper {
                 height: 220px; // Slightly shorter viewport on smaller mobile screens
             }
@@ -492,9 +544,22 @@
         padding: 3rem; // Generous spacious padding for description area
         gap: 2.5rem;
 
-        .modal-asis-content,
+        .modal-output-content,
         .modal-case-study {
             gap: 2rem; // Mirror the reduced mobile section gap above
+        }
+
+        // In this stacked layout modal-right-section is auto-height (not
+        // stretched to match modal-left-section like in the row/desktop
+        // layout above 1024px), so an empty-but-rendered .modal-actions-group
+        // (PROCESS view, no demo/notice content) still pulls in the gap above
+        // it with nothing to show for it — leaving PROCESS with roughly
+        // double OUTPUT's bottom spacing. Hiding it here (only in this
+        // stacked layout) removes that extra gap while leaving the row
+        // layout's rendering — where the same empty group is harmless,
+        // absorbed into its own margin-top: auto bottom-pinning — untouched.
+        .modal-actions-group.is-empty {
+            display: none;
         }
 
         @media (max-width: 768px) {

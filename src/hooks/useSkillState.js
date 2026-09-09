@@ -1,11 +1,10 @@
 import { useState, useMemo } from 'react'
 import { skills } from '@/data/skills'
-import { Code2, Monitor, PenTool } from 'lucide-react'
 
 const CATEGORY_CONFIG = {
-    design: { label: 'Design', icon: Code2 },
-    publishing: { label: 'Publishing', icon: Monitor },
-    tool: { label: 'Tool', icon: PenTool }
+    design: { label: 'Design' },
+    publishing: { label: 'Publishing' },
+    tool: { label: 'Tool' }
 }
 
 export const useSkillState = () => {

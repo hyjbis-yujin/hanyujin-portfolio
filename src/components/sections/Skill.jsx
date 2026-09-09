@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { Compass } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import SkillIcon from '@/components/common/SkillIcon'
 import Section from '@/components/common/Section'
@@ -67,12 +68,18 @@ const Skill = () => {
                                 aria-label={`${item.label}: ${item.desc}`}
                             >
                                 <div className="skill-icon-box">
-                                    <SkillIcon
-                                        icon={item.icon}
-                                        hoverIcon={item.hoverIcon}
-                                        alt={item.key}
-                                        size={24}
-                                    />
+                                    {item.icon ? (
+                                        <SkillIcon
+                                            icon={item.icon}
+                                            hoverIcon={item.hoverIcon}
+                                            alt={item.key}
+                                            size={24}
+                                        />
+                                    ) : (
+                                        // Capability items (Product tab) have no tool logo —
+                                        // reuse a single unified icon instead.
+                                        <Compass strokeWidth={2} />
+                                    )}
                                 </div>
                                 <div className="skill-content">
                                     <h3 className="skill-name">{item.key}</h3>

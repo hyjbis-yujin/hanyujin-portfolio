@@ -14,24 +14,24 @@ const ProjectModalSlider = ({
     hasCaseStudy
 }) => {
     const viewToggle = hasCaseStudy && (
-        <div className="modal-view-toggle" role="tablist" aria-label="AS-IS TO-BE 전환">
+        <div className="modal-view-toggle" role="tablist" aria-label="OUTPUT PROCESS 전환">
             <button
                 type="button"
-                className={cn("view-toggle-btn", activeView === 'tobe' && "active")}
-                onClick={() => setActiveView('tobe')}
+                className={cn("view-toggle-btn", activeView === 'output' && "active")}
+                onClick={() => setActiveView('output')}
                 role="tab"
-                aria-selected={activeView === 'tobe'}
+                aria-selected={activeView === 'output'}
             >
-                TO-BE
+                OUTPUT
             </button>
             <button
                 type="button"
-                className={cn("view-toggle-btn", activeView === 'asis' && "active")}
-                onClick={() => setActiveView('asis')}
+                className={cn("view-toggle-btn", activeView === 'process' && "active")}
+                onClick={() => setActiveView('process')}
                 role="tab"
-                aria-selected={activeView === 'asis'}
+                aria-selected={activeView === 'process'}
             >
-                AS-IS
+                PROCESS
             </button>
         </div>
     )

@@ -11,15 +11,15 @@ import { overlayVariants, modalVariants } from '@/lib/animations/project'
 
 const ProjectModal = ({ project, onClose }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
-    // 'tobe' shows the project's existing meta/highlights content (default),
-    // 'asis' shows the problem/solution/result case-study content
-    const [activeView, setActiveView] = useState('tobe')
+    // 'output' shows the project's meta/highlights (deliverable) content (default),
+    // 'process' shows the problem/solution/result case-study content
+    const [activeView, setActiveView] = useState('output')
 
     const handleClose = useCallback(() => {
         if (onClose) onClose()
         setTimeout(() => {
             setCurrentImageIndex(0)
-            setActiveView('tobe')
+            setActiveView('output')
         }, 200)
     }, [onClose])
 
@@ -27,7 +27,7 @@ const ProjectModal = ({ project, onClose }) => {
         if (project) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setCurrentImageIndex(0)
-            setActiveView('tobe')
+            setActiveView('output')
         }
     }, [project])
 

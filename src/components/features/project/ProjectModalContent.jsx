@@ -1,6 +1,7 @@
 import React from 'react'
-import { Check, AlertCircle } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
 import MetaGrid from '@/components/ui/MetaGrid'
+import HighlightList from './HighlightList'
 import { motion } from 'framer-motion'
 
 const containerVariants = {
@@ -23,7 +24,7 @@ const itemVariants = {
     }
 }
 
-const ProjectModalContent = ({ project, activeView = 'tobe' }) => {
+const ProjectModalContent = ({ project, activeView = 'output' }) => {
     // Localized meta items
     // Design-only projects describe device/responsive coverage instead of a dev tech stack.
     const stackItem = project.meta?.device
@@ -37,12 +38,12 @@ const ProjectModalContent = ({ project, activeView = 'tobe' }) => {
         stackItem
     ].filter(item => item.value && String(item.value).trim() !== '')
 
-    // AS-IS view shows the problem/solution/result case study; falls back to the
-    // meta + highlights content (shown under TO-BE) if a project has no caseStudy yet.
-    const showCaseStudy = activeView === 'asis' && !!project.caseStudy
+    // PROCESS view shows the problem/solution/result case study; falls back to the
+    // meta + highlights content (shown under OUTPUT) if a project has no caseStudy yet.
+    const showCaseStudy = activeView === 'process' && !!project.caseStudy
 
-    // The case-study (AS-IS) side hides the live Demo link and the "site may differ"
-    // notice; both only make sense next to the meta/highlights (TO-BE) side.
+    // The case-study (PROCESS) side hides the live Demo link and the "site may differ"
+    // notice; both only make sense next to the meta/highlights (OUTPUT) side.
     const showDemoAndNotice = !showCaseStudy
 
     return (
@@ -59,9 +60,9 @@ const ProjectModalContent = ({ project, activeView = 'tobe' }) => {
             </motion.div>
 
             {showCaseStudy ? (
-                /* AS-IS: Problem definition > Solution design > Project result */
+                /* PROCESS: Problem definition > Solution design > Project result */
                 <motion.div
-                    key="asis-case-study"
+                    key="process-case-study"
                     className="modal-case-study"
                     variants={itemVariants}
                     initial="hidden"
@@ -73,17 +74,17 @@ const ProjectModalContent = ({ project, activeView = 'tobe' }) => {
                     </div>
                     <div className="case-study-block">
                         <h3 className="case-study-label">솔루션 설계</h3>
-                        <p className="case-study-text">{project.caseStudy.solution}</p>
+                        <HighlightList items={project.caseStudy.solution || []} />
                     </div>
                     <div className="case-study-block">
                         <h3 className="case-study-label">프로젝트 결과</h3>
-                        <p className="case-study-text">{project.caseStudy.result}</p>
+                        <HighlightList items={project.caseStudy.result || []} />
                     </div>
                 </motion.div>
             ) : (
                 <motion.div
-                    key="tobe-meta"
-                    className="modal-asis-content"
+                    key="output-meta"
+                    className="modal-output-content"
                     variants={itemVariants}
                     initial="hidden"
                     animate="visible"
@@ -95,50 +96,59 @@ const ProjectModalContent = ({ project, activeView = 'tobe' }) => {
 
                     {/* Highlights */}
                     <div className="modal-highlights">
-                        <h3 className="highlight-title">작업 내용</h3>
-
-                        <div className="highlight-list">
-                            {(project.highlights || []).slice(0, 5).map((text, idx) => (
-                                <div key={idx} className="highlight-item">
-                                    <Check strokeWidth={3} />
-                                    <span>{text}</span>
-                                </div>
-                            ))}
-                        </div>
+                        <h3 className="highlight-title">주요 작업</h3>
+                        <HighlightList items={(project.highlights || []).slice(0, 5)} />
                     </div>
                 </motion.div>
             )}
 
-            {/* Actions (Moved to bottom) */}
-            <motion.div className="modal-actions-group" variants={itemVariants}>
-                <div className="modal-actions">
-                    {project.links?.github && project.links.github !== '#' && (
-                        <a
-                            href={project.links.github}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="btn-action"
-                        >
-                            GitHub
-                        </a>
-                    )}
-                    {showDemoAndNotice && project.links?.demo && project.links.demo !== '#' && (
-                        <a
-                            href={project.links.demo}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="btn-action"
-                        >
-                            {project.links.demo.toLowerCase().endsWith('.pdf') ? 'PDF' : 'Demo'}
-                        </a>
-                    )}
-                </div>
+            {/* Actions (Moved to bottom). Always rendered (even empty, on PROCESS)
+                so the row/side-by-side desktop layout keeps its original
+                margin-top: auto bottom-pinning behavior untouched. PROCESS never
+                has a GitHub/Demo link or notice to show (showDemoAndNotice is
+                false there), so an empty-but-present flex item here still pulls
+                in modal-right-section's gap before it — that only becomes a
+                visible double-gap bug in the stacked (mobile, <=1024px) modal
+                layout, where the "is-empty" class lets the SCSS hide it (see
+                @media (max-width: 1024px) .modal-actions-group.is-empty in
+                _modal.scss); above that width it stays rendered and empty exactly
+                as before. */}
+            <motion.div
+                className={`modal-actions-group${showDemoAndNotice ? '' : ' is-empty'}`}
+                variants={itemVariants}
+            >
+                {showDemoAndNotice && (
+                    <>
+                        <div className="modal-actions">
+                            {project.links?.github && project.links.github !== '#' && (
+                                <a
+                                    href={project.links.github}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="btn-action"
+                                >
+                                    GitHub
+                                </a>
+                            )}
+                            {project.links?.demo && project.links.demo !== '#' && (
+                                <a
+                                    href={project.links.demo}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="btn-action"
+                                >
+                                    {project.links.demo.toLowerCase().endsWith('.pdf') ? 'PDF' : 'Demo'}
+                                </a>
+                            )}
+                        </div>
 
-                {showDemoAndNotice && project.type === 'Company' && (
-                    <p className="modal-notice">
-                        <AlertCircle strokeWidth={2} />
-                        <span>개편 또는 유지보수로 인해 사이트가 기존과 상이할 수 있습니다.</span>
-                    </p>
+                        {project.type === 'Company' && (
+                            <p className="modal-notice">
+                                <AlertCircle strokeWidth={2} />
+                                <span>개편 또는 유지보수로 인해 사이트가 기존과 상이할 수 있습니다.</span>
+                            </p>
+                        )}
+                    </>
                 )}
             </motion.div>
 

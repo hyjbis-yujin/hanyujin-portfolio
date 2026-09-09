@@ -49,7 +49,13 @@ const Home = ({ onOpenProject, onScrollTo }) => {
                         transition={layoutSpring}
                         initial={isLoadedMidPage ? false : undefined}
                     >
-                        프로덕트<br />
+                        {/* "프로덕트 디자이너" is one flowing phrase — no forced break
+                            between the two words at any width; below the desktop
+                            breakpoint (full-width, stacked title) this one collapses via
+                            CSS (.title-break) so it wraps naturally instead. The break
+                            before the highlighted "포트폴리오" always stays, at every
+                            width, so that word keeps its own line. */}
+                        프로덕트<br className="title-break" />{' '}
                         디자이너<br />
                         <span className="highlight">포트폴리오</span>
                     </motion.h1>

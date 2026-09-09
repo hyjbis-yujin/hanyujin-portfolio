@@ -13,10 +13,10 @@ const AboutPanel = ({ onScrollTo }) => {
             </div>
             <div className="tags-container">
                 <span className="tag"># UI/UX</span>
-                <span className="tag"># Responsive</span>
-                <span className="tag"># Usability</span>
-                <span className="tag"># Detail</span>
-                <span className="tag"># Growth</span>
+                <span className="tag"># Research</span>
+                <span className="tag"># Define</span>
+                <span className="tag"># System</span>
+                <span className="tag"># Flow</span>
                 <span className="tag"># UserFirst</span>
             </div>
         </div>

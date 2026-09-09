@@ -1,10 +1,10 @@
 # Portfolio Yujin
 
-> 커리어와 프로젝트, 스킬을 하나의 인터랙티브 경험으로 담아낸 웹 디자이너의 개인 포트폴리오 웹 서비스
+> 커리어와 프로젝트, 스킬을 하나의 인터랙티브 경험으로 담아낸 프로덕트 디자이너의 개인 포트폴리오 웹 서비스
 
 ![Preview](./src/assets/preview.gif)
 
-[🔗 포트폴리오 바로가기](https://portfolio-yujin.vercel.app/)
+[🔗 포트폴리오 바로가기](https://hanyujin-portfolio.vercel.app/)
 
 ## 🚀 프로젝트 소개
 
@@ -14,34 +14,28 @@
 ## ⚙️ 주요 기능
 
 - **홈**
-
-  * 프로필·스킬·프로젝트 미리보기를 한눈에 볼 수 있는 대시보드형 위젯 구성
-  * Framer Motion 기반 진입 애니메이션으로 첫 화면에 리듬감 부여
+  - 프로필·스킬·프로젝트 미리보기를 한눈에 볼 수 있는 대시보드형 위젯 구성
+  - Framer Motion 기반 진입 애니메이션으로 첫 화면에 리듬감 부여
 
 - **어바웃**
-
-  * 디자인 철학과 자기소개를 질문·답변 형태로 담은 인트로 섹션
-  * 스크롤 진행에 따라 질문이 순차적으로 전환되는 스크롤텔링 인터랙션
+  - 디자인 철학과 자기소개를 질문·답변 형태로 담은 인트로 섹션
+  - 스크롤 진행에 따라 질문이 순차적으로 전환되는 스크롤텔링 인터랙션
 
 - **스킬**
-
-  * 카테고리별 탭으로 보유 스킬을 분류해 탐색 편의성 확보
-  * 아이콘 기반 카드 UI로 보유 기술을 직관적으로 시각화
+  - 카테고리별 탭으로 보유 스킬을 분류해 탐색 편의성 확보
+  - 아이콘 기반 카드 UI로 보유 기술을 직관적으로 시각화
 
 - **커리어**
-
-  * Education과 Work Experience를 구분한 카드형 경력 소개
-  * 스크롤 위치에 반응하는 섹션 내비게이션으로 현재 보고 있는 위치를 명확히 인지
+  - Education과 Work Experience를 구분한 카드형 경력 소개
+  - 스크롤 위치에 반응하는 섹션 내비게이션으로 현재 보고 있는 위치를 명확히 인지
 
 - **프로젝트**
-
-  * Swiper 캐러셀로 다수의 프로젝트를 슬라이드 방식으로 탐색
-  * 모달에서 화면 전환 없이 프로젝트 상세(작업 내용, 기여도, 스크린샷)를 확인
+  - Swiper 캐러셀로 다수의 프로젝트를 슬라이드 방식으로 탐색
+  - 모달에서 화면 전환 없이 OUTPUT(작업 내용, 기여도, 스크린샷)과 PROCESS(문제 정의-솔루션 설계-결과) 탭으로 프로젝트 상세를 확인
 
 - **컨택트**
-
-  * 이메일, 깃허브 링크 등 연락 수단 정리
-  * Sonner 토스트로 복사 등 사용자 액션에 대한 즉각적인 피드백 제공
+  - 이메일, 깃허브 링크 등 연락 수단 정리
+  - Sonner 토스트로 복사 등 사용자 액션에 대한 즉각적인 피드백 제공
 
 ## 🎨 UI/UX 특징
 
@@ -55,26 +49,31 @@
 **Frontend**
 
 ![](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black) ![](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+
 > 컴포넌트 기반 UI 설계와 빠른 개발 환경 구축
 
 **Animation**
 
 ![](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+
 > 스크롤 트리거와 진입 애니메이션 등 정교한 모션 연출
 
 **State Management**
 
 ![](https://img.shields.io/badge/Zustand-000000?style=for-the-badge)
+
 > 활성 섹션, 모달 상태 등 전역 UI 상태를 간결하게 관리
 
 **Styling**
 
 ![](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+
 > 7-1 패턴 아키텍처를 적용한 체계적인 스타일 관리
 
 **UI Components**
 
 ![](https://img.shields.io/badge/Swiper-6332F6?style=for-the-badge&logo=swiper&logoColor=white) ![](https://img.shields.io/badge/Lucide-F56565?style=for-the-badge&logo=lucide&logoColor=white) ![](https://img.shields.io/badge/Sonner-000000?style=for-the-badge)
+
 > 터치 친화적 캐러셀과 아이콘 시스템, 토스트 피드백 구현
 
 ## 🧠 상태 관리

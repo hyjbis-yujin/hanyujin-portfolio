@@ -4,9 +4,11 @@
 #home {
   padding-left: 4rem;
   padding-right: 4rem;
-  // Touch devices (iPad, mobile): add top/bottom padding so content doesn't stick to edges
-  padding-top: 80px;
-  padding-bottom: 80px;
+  // Touch devices (iPad, mobile): add top/bottom padding so content doesn't stick to edges.
+  // Shares $section-padding-vertical with .section (About/Skill/Career/Contact/Project)
+  // instead of hardcoding 80px separately here.
+  padding-top: $section-padding-vertical;
+  padding-bottom: $section-padding-vertical;
 
   @media (max-width: 768px) {
     padding-left: 2rem;
@@ -39,15 +41,15 @@
     width: 100%;
     max-width: 1250px; // Standardized content max-width to 1250px
     margin: 0 auto;
-    padding: 0 0 8rem 0; // Increased bottom padding to detach from the About section top border
+    // No padding-bottom here: #home's own padding-bottom ($section-padding-vertical,
+    // 80px) already provides the section's trailing space. This used to add an
+    // extra 4rem on top of that (stacking to 144px vs. the 80px used above the
+    // title), which is what made the bottom margin feel different from the top.
+    padding: 0;
     display: grid;
     grid-template-columns: 1fr;
     gap: 4rem; // Increased from 3rem for better mobile breathing room
     align-items: center;
-
-    @media (min-width: 768px) and (max-width: 1023px) {
-      padding: 0 0 6rem 0; // Restore original vertical layout padding
-    }
 
     @include mq-desktop {
       // Initial State: Content | Hidden
@@ -91,7 +93,11 @@
     text-align: center;
     width: 100%;
     position: relative;
-    padding-top: 9vh; // Adjusted from 15vh to 9vh per user request
+    // Removed (was 15vh -> 9vh -> 6vh -> 8vh): the extra top padding here felt
+    // like unwanted whitespace above the title once the title font was
+    // shrunk. #home's own padding-top ($section-padding-vertical, 80px on
+    // touch devices) still provides top spacing for the whole section.
+    padding-top: 0;
 
     @include mq-desktop {
       // Initial Desktop State: Centered
@@ -103,10 +109,12 @@
 
     h1 {
       font-family: $font-pixel;
-      // Fluid Typography: Smoothly scales from mobile to desktop without jerky breakpoints
-      // Starts shrinking smoothly from ~1250px so it prevents breaking into two lines
-      // Minimum size increased to 50px to maintain strong presence on vertical/mobile screens
-      font-size: clamp(46px, 4.8vw, 70px);
+      // Vertical/stacked layout (<1024px): flat size, independent of the
+      // desktop ramp below. Previously this shared the desktop ramp's floor
+      // (58px), which made the stacked-layout title far too large once that
+      // floor got raised for the desktop side; decoupled so each layout can
+      // be tuned on its own.
+      font-size: 40px;
       font-weight: normal;
       line-height: 1.1;
       letter-spacing: -0.05em;
@@ -114,8 +122,24 @@
       width: fit-content; // Important for Layout Animation to move the whole block
       text-align: center; // Initial state
 
-      // Handle Text Align change via parent state if needed, or explicitly here
+      // Below the desktop breakpoint the title is full-width and stacked above
+      // the panels (not squeezed into a narrow column), so the forced 3-line
+      // break isn't needed there — let it wrap naturally instead.
+      .title-break {
+        display: none;
+      }
+
       @include mq-desktop {
+        // Fluid Typography: scales linearly from the 1024px layout breakpoint
+        // (58px, the floor right before the layout switches to stacked) up to
+        // 1440px (65px, the desktop cap) — one continuous ramp, no kink in
+        // between. Start-of-shrink point pushed in from 1600 to 1440 so the
+        // title stays at full size (65px) longer as the viewport narrows.
+        font-size: clamp(58px, calc(1.68vw + 40.77px), 65px);
+
+        .title-break {
+          display: inline;
+        }
       }
 
       // Transition handled by Framer Motion

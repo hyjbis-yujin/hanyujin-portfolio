@@ -11,6 +11,12 @@ $card-bg: rgba(255, 255, 255, 0.05);
 $border-color-subtle: rgba(255, 255, 255, 0.05); // Same value as $card-bg but used for borders
 $gray-dark: #323232; // Shared dark gray used across tags, hover states, and borders
 
+// Shared vertical padding for a full section on mobile/tablet (touch) devices.
+// Used by the common .section wrapper (About/Skill/Career/Contact/Project) AND
+// by #home (which can't use .section directly since it's a special full-screen
+// hero) so the two stay in sync instead of hardcoding the same 80px twice.
+$section-padding-vertical: 80px;
+
 
 $font-title: 'Yuseol', sans-serif;
 $font-family: 'Paperlogy', sans-serif;

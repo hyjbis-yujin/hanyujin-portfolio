@@ -11,10 +11,10 @@
     // Mobile/Tablet/Touch devices: Natural scroll, content-based height
     width: 100%;
     height: auto;
-    padding: 80px 1.4rem; // Mobile padding
+    padding: $section-padding-vertical 1.4rem; // Mobile padding
 
     @include mq-tablet {
-        padding: 80px 3rem; // Add generous horizontal padding on tablets
+        padding: $section-padding-vertical 3rem; // Add generous horizontal padding on tablets
     }
 
     @include flex-center;

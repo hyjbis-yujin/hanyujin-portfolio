@@ -36,14 +36,21 @@ $project-arrow-top: 57px;
     width: 100%;
     min-width: 0;
     gap: 4.5rem;
-    padding-bottom: 2rem;
-    
+
     // Internal scroll only on non-touch (real desktop) - prevents scroll trap on iPad
     @include mq-desktop {
         html:not([data-touch]) & {
             max-height: calc(100vh - 120px);
             overflow-y: auto;
-            
+            // Breathing room at the bottom of the internal scroll area so the
+            // last card doesn't sit flush against the scroll edge. Scoped to
+            // this internal-scroll context only (not the base rule) — outside
+            // of it, #project's own padding-bottom ($section-padding-vertical)
+            // already provides the section's bottom spacing; the old base-level
+            // 2rem stacked on top of that, making Project's bottom margin
+            // noticeably larger than the other sections'.
+            padding-bottom: 2rem;
+
             -ms-overflow-style: none;
             scrollbar-width: none;
             &::-webkit-scrollbar {
